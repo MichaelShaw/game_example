@@ -7,11 +7,11 @@ import game.event._
 
 abstract class ServerConnection {
   // send
-  def playerUpdate(events:Seq[Event], stateTransitions:Seq[StateTransition])
+  def playerUpdate(events:Seq[Event], stateTransitions:Seq[StateTransition[Living]])
 
   // receive
-  def receivePlayer : (Seq[ToEntityEvent], Seq[StateTransition])
-  def receiveNpcStateTransitions : Map[Int, Seq[StateTransition]]
+  def receivePlayer : (Seq[ToEntityEvent], Seq[StateTransition[Living]])
+  def receiveNpcStateTransitions : Map[Int, Seq[StateTransition[Living]]]
 }
 
 object MultiplayerClient { // server is arg

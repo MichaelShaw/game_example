@@ -10,7 +10,7 @@ abstract class ClientConnection {
   def sendPlayerEvents(event:Seq[Event], stateTransitions:Seq[Event])
 
   // receive
-  def receive : (Seq[Event], Seq[StateTransition])
+  def receive : (Seq[Event], Seq[StateTransition[Living]])
 }
 
 object MultiplayerServer { // server is arg

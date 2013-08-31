@@ -41,7 +41,8 @@ object World {
 
 abstract class Entity(val position:Vec2i) {
   val events = new mutable.Queue[game.event.ToEntityEvent]()
-  var exists = true // needed to track an object being picked up while still processing all of it's events
+
+  var alive = true // needed to track an object being picked up while still processing all of it's events
 
   def glyph : Char
 
@@ -51,12 +52,16 @@ abstract class Entity(val position:Vec2i) {
 class Living(pos:Vec2i) extends Entity(pos) {
   def glyph = 0x263a
 
+  var health = 100
+
   var itemInHand : Option[Int] = None
 
   def holdingItem = itemInHand.isDefined
 
   val facing = Vec2i(1, 0)
-  val attacking = false
+
+  var weaponDrawn = false
+  var attacking = false
 }
 
 class Item(pos:Vec2i, val itemType:Int) extends Entity(pos) {
@@ -71,4 +76,8 @@ object Item {
 
 case class Vec2i(var x:Int, var y:Int) {
   def product = x * y
+  def :=(other:Vec2i) {
+    x = other.x;
+    y = other.y
+  }
 }
