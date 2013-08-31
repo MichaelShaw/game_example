@@ -4,28 +4,26 @@ import game.state._
 import game.event._
 
 object Simulate {
-  def update(world:World, time:Int) {
-    for((id, e) <- world.entities) {
-      // handle outstanding events
-      // call decide
-
-      // call simulate
-    } // accumulate events
-  }
-
-  // occurs at an instant
+  // occurs at an instant, generally AI or player controls
   def decide(world:World, l:Living) : InstantEventSet = {
 
-    null
+    // ai goes here
 
+    null
   }
 
   // occurs over a period of time
-  def simulate(e:Entity, time:Int) : SimulatedEventSet = {
+  def simulate(world:World, e:Entity, time:Int) : SimulatedEventSet = {
+    // move entity
+
+    // animations etc. would go here (as collisions can depend on them)
+
+    // check for collisions
 
     null
   }
 
+  // the mutable part
   def applyEvents(e:Entity, events: Seq[StateTransition]) {
 
   }

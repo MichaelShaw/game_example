@@ -40,6 +40,9 @@ object World {
 }
 
 abstract class Entity(val position:Vec2i) {
+  val events = new mutable.Queue[game.event.ToEntityEvent]()
+  var exists = true // needed to track an object being picked up while still processing all of it's events
+
   def glyph : Char
 
   val velocity = Vec2i(0, 0)
@@ -49,6 +52,8 @@ class Living(pos:Vec2i) extends Entity(pos) {
   def glyph = 0x263a
 
   var itemInHand : Option[Int] = None
+
+  def holdingItem = itemInHand.isDefined
 
   val facing = Vec2i(1, 0)
   val attacking = false
