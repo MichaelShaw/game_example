@@ -2,9 +2,10 @@ package game.state
 
 import collection.mutable
 
-case class World(val size:Vec2i,
-                 val entities:mutable.HashMap[Int, Entity] = new mutable.HashMap[Int, Entity]()) {
+
+class World(val size:Vec2i) {
   val blocks = new Array[Byte](size.product)
+  val entities = new mutable.HashMap[Int, Entity]()
 
   def hasBlockAt(x:Int, y:Int) = getBlockAt(x, y) > 0
 
@@ -22,6 +23,21 @@ case class World(val size:Vec2i,
 }
 
 object World {
+  def takeDamage(damage:Int)(l:Living) : Living = {
+    l.copy(health = floor(l.health - damage, 0, 100))
+  }
+
+  def floor(n:Int, min:Int, max:Int) = {
+    if(n < min) {
+      min
+    } else if (n > max) {
+      max
+    } else {
+      n
+    }
+  }
+
+
   def assignBorders(world:World, b:Byte) {
     for {
       x <- 0 until world.size.x
@@ -40,28 +56,27 @@ object World {
 }
 
 abstract class Entity(val position:Vec2i) {
-  val events = new mutable.Queue[game.event.ToEntityEvent]()
-
   var alive = true // needed to track an object being picked up while still processing all of it's events
 
-  def glyph : Char
+  val events = new mutable.Queue[game.event.ToEntityEvent]()
 
-  val velocity = Vec2i(0, 0)
+  def glyph : Char
 }
 
-class Living(pos:Vec2i) extends Entity(pos) {
-  def glyph = 0x263a
-
-  var health = 100
+case class Living(pos:Vec2i, var health:Int = 100) extends Entity(pos) {
+  val facing = Vec2i(1, 0)
+  var weaponDrawn = false
+  var attacking = false
 
   var itemInHand : Option[Int] = None
 
+  def glyph = 0x263a
+
   def holdingItem = itemInHand.isDefined
 
-  val facing = Vec2i(1, 0)
 
-  var weaponDrawn = false
-  var attacking = false
+
+
 }
 
 class Item(pos:Vec2i, val itemType:Int) extends Entity(pos) {
