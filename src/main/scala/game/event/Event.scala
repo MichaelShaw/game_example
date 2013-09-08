@@ -40,7 +40,7 @@ case class PickupItem(to:Int, from:Int) extends FromEntityEvent with ToEntityEve
 
 case class DropItem(itemType:Int, from:Int) extends FromEntityEvent with ZoneEvent // unsure if this is needed
 
-case class TakeDamage(damage:Int, from:Int,  to:Int) extends FromEntityEvent with ToEntityEvent
+case class TakeDamage(damage:Int, from:Int, to:Int) extends FromEntityEvent with ToEntityEvent
 
 // STATE TRANSITIONS
 trait StateTransition[-T] {
